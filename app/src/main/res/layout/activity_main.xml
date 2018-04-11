@@ -54,8 +54,7 @@
             android:text="Normal Login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/buttonLogin"
-            android:layout_weight="1" />
+            android:id="@+id/buttonLogin" />
 
         <Button
             android:text="Create User"
@@ -67,8 +66,7 @@
             android:text="Google Login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/buttonGoogleLogin"
-            android:layout_weight="1" />
+            android:id="@+id/buttonGoogleLogin" />
 
     </LinearLayout>
 
@@ -77,14 +75,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/textViewStatus"
-        android:layout_weight="1"
         android:textSize="30sp" />
 
     <Button
         android:text="Sign Out"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/buttonSignOut"
-        android:layout_weight="1" />
+        android:id="@+id/buttonSignOut" />
 
 </LinearLayout>
