@@ -38,13 +38,20 @@ public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
 
+    /**
+     * onCreate() method is a overrided method which is in super class.
+     * it instantaites the values of text fields, buttons and creates objects.
+     */
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Assigning the instance of firebase to the mAuth
         mAuth = FirebaseAuth.getInstance();
 
+        // Assigning the text fields and bottuns to the variables declared above
         textViewStatus = (TextView) findViewById(R.id.textViewStatus);
         editTextEmail = (EditText) findViewById(R.id.editTextEmail);
         editTextPassword = (EditText) findViewById(R.id.editTextPassword);
@@ -53,36 +60,51 @@ public class MainActivity extends AppCompatActivity {
         buttonCreateLogin = (Button) findViewById(R.id.buttonCreateLogin);
         buttonSignOut = (Button) findViewById(R.id.buttonSignOut);
 
+        // Creating an object to which is listening button login event
+        // it will initiate if there is click event to the button login
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Log.d("CIS3334", "normal login ");
+                // it is just normal login
                 signIn(editTextEmail.getText().toString(), editTextPassword.getText().toString());
             }
         });
 
+        // Creating an object to which is listening button create login event
+        // it will initiate if there is click event to the button create login
         buttonCreateLogin.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Log.d("CIS3334", "Create Account ");
+                // it is just a creating account
                 createAccount(editTextEmail.getText().toString(), editTextPassword.getText().toString());
             }
         });
 
+        // Creating an object to which is listening button google login event
+        // it will initiate if there is click event to the button google login
         buttonGoogleLogin.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Log.d("CIS3334", "Google login ");
+                // it is just google login
+                // Google will log you in
                 googleSignIn();
             }
         });
 
+        // Creating an object to which is listening button sign out event
+        // it will initiate if there is click event to the button sign out
         buttonSignOut.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Log.d("CIS3334", "Logging out - signOut ");
+                // CIS3334
+                // it is going to sign you out
                 signOut();
             }
         });
 
 
     }
+
+    /**
+     * createAccount() method is creating accounts of a user that put its email and password or used google sign.
+     * if it is successful the sign in, it saves the user info into the firebase. if fails, it will display a message.
+     */
 
     private void createAccount(String email, String password) {
 
@@ -91,15 +113,12 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d("CIS3334", "signInWithEmail:success");
+                            // Successful sign in
                             FirebaseUser user = mAuth.getCurrentUser();
                             //updateUI(user);
                         } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w("CIS3334", "signInWithEmail:failure", task.getException());
-                            Toast.makeText(MainActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
+                            // Sign in failed
+                            textViewStatus.setText("Authentication failed");
                            // updateUI(null);
                         }
 
@@ -107,6 +126,11 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
     }
+
+    /**
+     * signin() method is signing in the user if it provides correct email and password.
+     * otherwise it will display a message of failed signin.
+     */
 
     private void signIn(String email, String password){
 
@@ -116,14 +140,13 @@ public class MainActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Log.d("CIS3334", "createUserWithEmail:success");
+                           // Create user with email success
                             FirebaseUser user = mAuth.getCurrentUser();
                             //updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
-                            Log.w("CIS3334", "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(MainActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
+                           // Creating user with email failed
+                            textViewStatus.setText("Creating user failed");
                             //updateUI(null);
                         }
 
@@ -132,6 +155,10 @@ public class MainActivity extends AppCompatActivity {
                 });
 
     }
+
+    /**
+     * signout() method signs out the user as it shows its name.
+     */
 
     private void signOut () {
 
@@ -144,6 +171,10 @@ public class MainActivity extends AppCompatActivity {
 
    //=======================
 
+    /**
+     * onStart() is another overrided method which checks whether the user signed in already or not.
+     */
+
     @Override
     public void onStart() {
         super.onStart();
@@ -151,19 +182,14 @@ public class MainActivity extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         //updateUI(currentUser);
         if (currentUser != null) {
-            // User is signed in
-            Log.d("CIS3334", "onAuthStateChanged:signed_in:" + currentUser.getUid());
-            Toast.makeText(MainActivity.this, "User Signed In", Toast.LENGTH_LONG).show();
+            // User is already signed in
             textViewStatus.setText("Signed In");
         } else {
-            // User is signed out
-            Log.d("CIS3334", "onAuthStateChanged:signed_out");
-            Toast.makeText(MainActivity.this, "User Signed Out", Toast.LENGTH_LONG).show();
-            textViewStatus.setText("Signed Out");
+            // No user is signed in
+            textViewStatus.setText("User already signed Out");
         }
     }
 
-    //==========================
 
 
 }
